@@ -1,96 +1,51 @@
 package com.petrovdevelopment.dice.activities;
 
-import android.app.Activity;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.AdapterView;
 
+import com.petrovdevelopment.common.activities.BaseMenuActivity;
+import com.petrovdevelopment.common.util.U;
 import com.petrovdevelopment.dice.R;
-import com.petrovdevelopment.dice.logic.Game;
-import com.petrovdevelopment.dice.logic.ShakeDetector;
+
+import java.util.Arrays;
+import java.util.List;
 
 
-public class MenuActivity extends Activity implements ShakeDetector.OnShakeListener {
-    private TextView resultView;
-    private ShakeDetector shakeDetector;
-    private SensorManager sensorManager;
-
-    private Game game;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        initViews();
-        initGame();
-    }
-
-    private void initViews() {
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        shakeDetector = new ShakeDetector(this);
-        resultView = (TextView) findViewById(R.id.result);
-
-    }
-
-
-
-    private void startListenShake() {
-        sensorManager.registerListener(shakeDetector, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    private void stopListenShake() {
-        sensorManager.unregisterListener(shakeDetector);
-    }
-
-    private void initGame() {
-        game = new Game();
-    }
-
-    public void onRoll(View v) {
-        game.rollDice();
-        int diceResult = game.getDiceResult();
-        resultView.setText(String.valueOf(diceResult+1));
-    }
+public class MenuActivity extends BaseMenuActivity {
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        startListenShake();
+    public List<String> getMenuOptions() {
+        return Arrays.asList(getResources().getStringArray(R.array.main_menu));
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        stopListenShake();
+    public AdapterView.OnItemClickListener getMainMenuOnItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        openDiceRoll();
+                        break;
+                    case 1:
+                        U.log(this, "second button");
+                        break;
+                    case 2:
+                        U.log(this, "third button");
+                        break;
+                    default: // do nothing
+                }
+            }
+        };
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+
+    private void openDiceRoll() {
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onShake() {
-        onRoll(null);
-    }
 }
