@@ -56,6 +56,7 @@ public class MenuActivity extends Activity implements ShakeDetector.OnShakeListe
         resultView.setText(String.valueOf(diceResult+1));
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
