@@ -1,0 +1,26 @@
+<resources>
+
+    <string name="app_name">Street Guess</string>
+
+    <!-- Action bar menu -->
+    <string name="settings">Settings</string>
+
+    <!-- Settings -->
+    <string name="sound">Sound</string>
+    <!--  -->
+
+
+    <!-- Street View -->
+    <string name="street_view_image">Street View Image</string>
+
+    <!-- Guess view -->
+    <string name="make_guess">Make Guess</string>
+    <string name="last_guess">Last guess</string>
+    <string name="total">Total</string>
+    <string name="points">points</string>
+    <string name="map_cannot_load">We are sorry, Google Maps cannot load!</string>
+    <string name="guess">Guess</string>
+    <string name="location">Location</string>
+    <string name="the_spot">The Spot</string>
+
+</resources>

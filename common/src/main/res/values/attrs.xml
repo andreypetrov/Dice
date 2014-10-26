@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="font" format="string" />
+    <attr name="max" format="integer" />
+    <attr name="step_layout" format="reference" />
+    <attr name="value" format="integer" />
+    <attr name="step_gap" format="dimension" />
+    <attr name="step_width" format="dimension" />
+    <attr name="step_height" format="dimension" />
+
+    <declare-styleable name="FontTextView">
+        <attr name="font" />
+    </declare-styleable>
+    <declare-styleable name="GameProgressBar">
+        <attr name="max" />
+        <attr name="value" />
+        <attr name="step_layout" />
+        <attr name="step_gap" />
+        <attr name="step_width" />
+        <attr name="step_height" />
+    </declare-styleable>
+
+</resources>
