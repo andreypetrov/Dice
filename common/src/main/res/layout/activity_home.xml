@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/yellow_light"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical" android:id="@+id/content" >
 
     <ListView
         android:id="@+id/mainMenu"

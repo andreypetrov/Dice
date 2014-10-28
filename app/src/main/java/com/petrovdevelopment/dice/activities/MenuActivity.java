@@ -1,7 +1,10 @@
 package com.petrovdevelopment.dice.activities;
 
-import android.content.Intent;
+import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.petrovdevelopment.common.activities.BaseMenuActivity;
@@ -13,11 +16,18 @@ import java.util.List;
 
 
 public class MenuActivity extends BaseMenuActivity {
-
+    private boolean isActionBarDark = false;
+    private View backgroundDarkOverlay;
 
     @Override
     public List<String> getMenuOptions() {
         return Arrays.asList(getResources().getStringArray(R.array.main_menu));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
     }
 
     @Override
@@ -42,10 +52,44 @@ public class MenuActivity extends BaseMenuActivity {
     }
 
 
+    public void initView() {
+        U.log(this, "view initialized");
+        backgroundDarkOverlay = new View(this.getBaseContext());
+        backgroundDarkOverlay.setMinimumWidth(500);
+        backgroundDarkOverlay.setMinimumHeight(500);
+        backgroundDarkOverlay.setBackgroundColor(getResources().getColor(R.color.transparent_black));
+    }
+
+
+    private void darkenActionBar() {
+       // getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent_black)));
+        // getActionBar().hide();
+
+//        ViewGroup contentView = (ViewGroup) findViewById(R.id.content);
+//        contentView.addView(backgroundDarkOverlay, 0);
+
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.width = 2500;
+        params.height = 2500;
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        params.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;
+        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        windowManager.addView(backgroundDarkOverlay, params);
+    }
+
+    private void brightenActionBar() {
+        ViewGroup contentView = (ViewGroup) findViewById(R.id.content);
+        contentView.removeView(backgroundDarkOverlay);
+    }
 
     private void openDiceRoll() {
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        isActionBarDark = !isActionBarDark;
+        if (isActionBarDark) darkenActionBar();
+        else brightenActionBar();
+
+
+//        Intent intent = new Intent(this, GameActivity.class);
+//        startActivity(intent);
     }
 
 }
