@@ -7,7 +7,9 @@ import android.view.MenuItem;
 
 import com.petrovdevelopment.dice.R;
 
-
+/**
+ * Created by Andrey Petrov on 2014-11-09.
+ */
 public class MyActivity extends Activity {
 
     @Override

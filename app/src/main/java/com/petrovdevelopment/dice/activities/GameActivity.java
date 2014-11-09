@@ -13,7 +13,9 @@ import com.petrovdevelopment.dice.R;
 import com.petrovdevelopment.dice.logic.Game;
 import com.petrovdevelopment.dice.logic.ShakeDetector;
 
-
+/**
+ * Created by Andrey Petrov on 2014-11-09.
+ */
 public class GameActivity extends Activity implements ShakeDetector.OnShakeListener {
     private TextView resultView;
     private ShakeDetector shakeDetector;

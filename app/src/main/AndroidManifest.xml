@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.petrovdevelopment.dice" >
 
+    <!-- Used for the shaking to roll dice option -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Tell the system this app requires OpenGL ES 3.0. -->
+    <uses-feature android:glEsVersion="0x00030000" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +30,12 @@
             android:name=".activities.MyActivity"
             android:label="@string/title_activity_my" >
         </activity>
+
+        <activity
+            android:name=".activities.OpenGLES30Activity"
+            android:label="@string/title_activity_my" >
+        </activity>
+
     </application>
 
 </manifest>
