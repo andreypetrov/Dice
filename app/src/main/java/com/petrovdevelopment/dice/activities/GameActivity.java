@@ -17,6 +17,8 @@ import com.petrovdevelopment.dice.logic.ShakeDetector;
  * Created by Andrey Petrov on 2014-11-09.
  */
 public class GameActivity extends Activity implements ShakeDetector.OnShakeListener {
+    public static final String GAME = "game";
+
     private TextView resultView;
     private ShakeDetector shakeDetector;
     private SensorManager sensorManager;
@@ -26,9 +28,18 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        restoreOrInitGame(savedInstanceState);
         setContentView(R.layout.activity_menu);
         initViews();
-        initGame();
+        updateUi();
+    }
+
+    private void restoreOrInitGame(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            game = (Game) savedInstanceState.get(GAME);
+        }
+        else initGame();
+
     }
 
     private void initViews() {
@@ -37,7 +48,6 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
         resultView = (TextView) findViewById(R.id.result);
 
     }
-
 
 
     private void startListenShake() {
@@ -54,9 +64,14 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
 
     public void onRoll(View v) {
         game.rollDice();
-        int diceResult = game.getDiceResult();
-        resultView.setText(String.valueOf(diceResult+1));
+        updateUi();
     }
+
+    private void updateUi() {
+        int diceResult = game.getDiceResult();
+        resultView.setText(String.valueOf(diceResult));
+    }
+
 
     @Override
     protected void onResume() {
@@ -93,5 +108,11 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
     @Override
     public void onShake() {
         onRoll(null);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(GAME, game);
     }
 }

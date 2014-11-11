@@ -12,5 +12,5 @@ public interface Touchable {
 	/**
 	 * Produce some effect when the object is touched
 	 */
-	void touch();
+	void onTouch();
 }
