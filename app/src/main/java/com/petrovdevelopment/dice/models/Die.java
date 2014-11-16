@@ -48,7 +48,6 @@ public class Die<E> implements Parcelable {
      */
     public Die<E> roll() {
         currentSideIndex = MathUtil.getRandomUpTo(getSideCount() - 1);
-        U.log(this, "rolled: " + currentSideIndex);
         return this;
     }
 

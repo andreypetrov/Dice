@@ -27,6 +27,9 @@ public class World implements Loopable<Integer> {
         this.gameSurfaceView = gameSurfaceView;
         initBackground();
         this.diceVmContainer = new DiceVmContainer(gameSurfaceView, diceContainer);
+//        int[] testDiceRolls = diceContainer.testRandomness();
+//        U.log(this, "dice rolls: ");
+//        U.log(this, testDiceRolls);
     }
 
     public static World createWorld(GameSurfaceView gameSurfaceView, DiceContainer diceContainer) {
