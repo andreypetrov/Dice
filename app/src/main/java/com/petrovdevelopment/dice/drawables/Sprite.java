@@ -8,8 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-import com.petrovdevelopment.common.util.U;
-
 /**
  * Class holding all the information required to render sprite on the screen.
  * Touchable to be able to react to touches if needed.
@@ -43,20 +41,36 @@ public class Sprite<E> implements Loopable<E>, Touchable, Parcelable {
      * @param frameCount
      * @param spriteResourceId the id of the sprite sheet. Needs to be with one row and with frameCount columns
      * @param parentView
+     * @param width  -1 to use native bitmap width divided by frame count
+     * @param height -1 to use native bitmap height
      */
-    public Sprite(int x, int y, int currentFrame, int frameCount, int spriteResourceId, View parentView) {
+    public Sprite(int x, int y, int currentFrame, int frameCount, int spriteResourceId, View parentView, int width, int height) {
 
         this.parentView = parentView;
         this.frameCount = frameCount;
         this.spriteResourceId = spriteResourceId;
+
         bitmap = BitmapFactory.decodeResource(this.parentView.getResources(), this.spriteResourceId);
-        width = bitmap.getWidth() / frameCount;
-        height = bitmap.getHeight();
+        initWidthAndHeight(width, height);
+        bitmap = Bitmap.createScaledBitmap(bitmap, this.width*frameCount , this.height, false);
+
 
         this.x = x;
         this.y = y;
         this.currentFrame = currentFrame;
         preRender();
+    }
+
+
+    /**
+     * Use the native bitmap height and width if non are provided
+     */
+    protected void initWidthAndHeight(int width, int height) {
+        if (width == -1) this.width = bitmap.getWidth() / frameCount;
+        else this.width = width;
+
+        if (height == -1) this.height = bitmap.getHeight();
+        else this.height = height;
     }
 
 
@@ -91,7 +105,7 @@ public class Sprite<E> implements Loopable<E>, Touchable, Parcelable {
      * Advance the animation, creating illusion of walking. increment should be first so that in the onDraw() we have
      * currentFrame = 0/1/2 Starting from the second frame.
      */
-    protected void changeFrame() {
+    protected void changeFrame(E notUsed) {
         currentFrame++;
         currentFrame = currentFrame % frameCount;
     }
@@ -187,24 +201,19 @@ public class Sprite<E> implements Loopable<E>, Touchable, Parcelable {
 
     @Override
     public void update(E notUsed) {
-        changeFrame();
+        changeFrame(notUsed);
         preRender();
     }
 
     @Override
     public void render(Canvas canvas) {
-        U.log(this, "rendering on canvas");
+        //U.log(this, "rendering on canvas");
         canvas.drawBitmap(bitmap, src, dst, null);
     }
 
     @Override
     public boolean isFinished() {
         return false; //never finished
-    }
-
-    @Override
-    public long getDuration() {
-        return -1; //endless
     }
 
     @Override

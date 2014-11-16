@@ -380,4 +380,15 @@ public class U {
 			list.add(o);
 		}
 	}
+
+    /**
+     * Conver string resource name into integer resource id.
+     * Uses reflection so don't use in game loops or any other performance critical places
+     * @param context
+     * @param name
+     * @return
+     */
+    public static int getStringIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    }
 }

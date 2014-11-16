@@ -11,9 +11,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.petrovdevelopment.dice.R;
-import com.petrovdevelopment.dice.logic.Game;
+import com.petrovdevelopment.dice.logic.GameController;
 import com.petrovdevelopment.dice.logic.ShakeDetector;
 import com.petrovdevelopment.dice.threads.GameSurfaceView;
+
+import java.util.List;
 
 /**
  * Created by Andrey Petrov on 2014-11-09.
@@ -27,7 +29,7 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
     private GameSurfaceView gameSurfaceView;
 
 
-    private Game game;
+    private GameController gameController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +60,12 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
         sensorManager.unregisterListener(shakeDetector);
     }
 
-    private void initGame() {
-        game = new Game(gameSurfaceView);
-    }
-
     public void onRoll(View v) {
-        game.rollDice();
-        //updateUi();
+        gameController.rollDice();
     }
 
     private void updateUi() {
-        int diceResult = game.getDiceResult();
+        List<Integer> diceResult = gameController.getDiceResult();
         resultView.setText(String.valueOf(diceResult));
     }
 
@@ -128,8 +125,8 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        game = Game.createGame(gameSurfaceView);
-        game.clear();
+        gameController = GameController.createGame(gameSurfaceView);
+        gameController.clear();
     }
 
     @Override

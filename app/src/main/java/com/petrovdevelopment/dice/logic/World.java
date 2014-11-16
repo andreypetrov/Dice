@@ -5,57 +5,45 @@ import android.graphics.Canvas;
 import com.petrovdevelopment.dice.R;
 import com.petrovdevelopment.dice.drawables.Background;
 import com.petrovdevelopment.dice.drawables.Loopable;
+import com.petrovdevelopment.dice.models.DiceContainer;
 import com.petrovdevelopment.dice.threads.GameSurfaceView;
+import com.petrovdevelopment.dice.viewmodels.DiceVmContainer;
 import com.petrovdevelopment.dice.viewmodels.DieVm;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by andrey on 2014-10-18.
  */
 public class World implements Loopable<Integer> {
-    private DieVm<Integer> dieVm;
+    private DiceVmContainer diceVmContainer;
     private Background background;
     private GameSurfaceView gameSurfaceView;
-    private int rowDurationInMilliseconds;
 
-    public World(GameSurfaceView gameSurfaceView, int rowDurationInMilliseconds) {
+
+    private World(GameSurfaceView gameSurfaceView, DiceContainer diceContainer) {
+
         this.gameSurfaceView = gameSurfaceView;
-        this.rowDurationInMilliseconds = rowDurationInMilliseconds;
         initBackground();
-        initDieVm();
-
+        this.diceVmContainer = new DiceVmContainer(gameSurfaceView, diceContainer);
     }
 
-    public static World createWorld(GameSurfaceView gameSurfaceView, int rowDurationInMilliseconds) {
-        return new World(gameSurfaceView, rowDurationInMilliseconds);
+    public static World createWorld(GameSurfaceView gameSurfaceView, DiceContainer diceContainer) {
+        return new World(gameSurfaceView, diceContainer);
     }
-
-//    public void initialize(GameSurfaceView gameSurfaceView) {
-//        this.gameSurfaceView = gameSurfaceView;
-//        initialize();
-//    }
-
 
     public void initBackground() {
         background = new Background(gameSurfaceView.getResources(), R.drawable.wall_bg, gameSurfaceView.getWidth(), gameSurfaceView.getHeight());
     }
 
-    private void initDieVm() {
-        dieVm = new DieVm<Integer>(gameSurfaceView, createDie(), R.drawable.die, 0, 0, 0);
-    }
 
-    private Die createDie() {
-        Integer[] array = new Integer[]{1, 2, 3, 4, 5, 6};
-        List<Integer> sides = Arrays.asList(array);
-        Die die = new Die<Integer>(0, sides, Integer.class);
-        return die;
-    }
-
-
-    public int getDiceResult() {
-        return dieVm.getDie().getCurrentSideIndex();
+    public List<Integer> getDiceResults() {
+        List<Integer> results = new ArrayList<Integer>();
+        for (DieVm<Integer> dieVm : diceVmContainer.getDieVms()) {
+            results.add(dieVm.getDie().getCurrentSideIndex());
+        }
+        return results;
     }
 
     public void drawBackground(Canvas canvas) {
@@ -66,31 +54,32 @@ public class World implements Loopable<Integer> {
     //region Loopable
     @Override
     public void init() {
+        diceVmContainer.init();
+    }
+
+    public void update(boolean useRealIndices) {
+        diceVmContainer.update(useRealIndices);
     }
 
     @Override
-    public void update(Integer externalState) {
-        dieVm.update(externalState);
+    public void update(Integer frameIndex) {
+        diceVmContainer.update(frameIndex);
     }
 
     @Override
     public void render(Canvas canvas) {
        background.render(canvas);
-       dieVm.render(canvas);
-    }
-
-    @Override
-    public long getDuration() {
-        return rowDurationInMilliseconds;
+       diceVmContainer.render(canvas);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+       return diceVmContainer.isFinished();
     }
 
     @Override
     public void finish() {
+        diceVmContainer.finish();
     }
     //endregion
 }

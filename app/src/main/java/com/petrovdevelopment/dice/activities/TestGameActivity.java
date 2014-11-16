@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.petrovdevelopment.dice.R;
-import com.petrovdevelopment.dice.logic.Game;
+import com.petrovdevelopment.dice.logic.GameController;
 import com.petrovdevelopment.dice.logic.ShakeDetector;
 
 /**
@@ -23,7 +23,7 @@ public class TestGameActivity extends Activity implements ShakeDetector.OnShakeL
     private ShakeDetector shakeDetector;
     private SensorManager sensorManager;
 
-    private Game game;
+    private GameController gameController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +59,17 @@ public class TestGameActivity extends Activity implements ShakeDetector.OnShakeL
     }
 
     private void initGame() {
-        game = new Game(null);
+        gameController = GameController.createGame(null);
     }
 
     public void onRoll(View v) {
-        game.rollDice();
+        gameController.rollDice();
         updateUi();
     }
 
     private void updateUi() {
-        int diceResult = game.getDiceResult();
-        resultView.setText(String.valueOf(diceResult));
+        //int diceResult = gameController.getDiceResult();
+        //resultView.setText(String.valueOf(diceResult));
     }
 
 

@@ -31,13 +31,6 @@ public interface Loopable<E> {
 	void render(Canvas canvas);
 
     /**
-     * Duration of the loop in miliseconds. -1 for endless
-     * If the duration is -1 then the loop thread will stop only when the isFinished state becomes true
-     * @return
-     */
-    long getDuration();
-
-    /**
      * Whether the loopable is in finished state.
      * The loopable can calculate based on some internal changes that its state is finished, but this is not necessary.
      * The loop will use this property to check and cut the animation earlier than its duration if this at some point turns to true.

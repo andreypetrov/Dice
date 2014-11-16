@@ -5,13 +5,13 @@ package com.petrovdevelopment.dice.utils;
  */
 public class GameUtils {
 
-//    public static int rollDieAndGetIndex(Die die) {
-//        die.roll();
-//        return die.getCurrentSideIndex();
+//    public static int rollDieAndGetIndex(Die die6) {
+//        die6.roll();
+//        return die6.getCurrentSideIndex();
 //    }
 //
-//    public static <E> E rollDie (Die<E> die) {
-//        die.roll();
-//        return die.getCurrentSide();
+//    public static <E> E rollDie (Die<E> die6) {
+//        die6.roll();
+//        return die6.getCurrentSide();
 //    }
 }
