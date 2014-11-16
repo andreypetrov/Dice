@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Die<E> implements Parcelable {
 
-    int currentSideIndex;
+    private int currentSideIndex;
     Class<?> sideType;
     List<E> sides;
 
@@ -41,10 +41,12 @@ public class Die<E> implements Parcelable {
     }
 
     /**
-     * @return Roll the die and to change the current side index. Should be usually random (0 indexed)
+     * Roll the die and to change the current side index. Should be usually random (0 indexed)
+     * @return this to chain call
      */
-    public void roll() {
+    public Die<E> roll() {
         currentSideIndex = MathUtil.getRandomUpTo(getSideCount() - 1);
+        return this;
     }
 
     public E getCurrentSide() {
@@ -93,6 +95,5 @@ public class Die<E> implements Parcelable {
             return new Die[size];
         }
     };
-
     //endregion
 }

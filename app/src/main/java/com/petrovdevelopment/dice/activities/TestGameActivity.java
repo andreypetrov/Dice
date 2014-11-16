@@ -6,34 +6,39 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.TextView;
 
 import com.petrovdevelopment.dice.R;
 import com.petrovdevelopment.dice.logic.Game;
 import com.petrovdevelopment.dice.logic.ShakeDetector;
-import com.petrovdevelopment.dice.threads.GameSurfaceView;
 
 /**
  * Created by Andrey Petrov on 2014-11-09.
  */
-public class GameActivity extends Activity implements ShakeDetector.OnShakeListener, GameSurfaceView.GameSurfaceViewCallback {
+public class TestGameActivity extends Activity implements ShakeDetector.OnShakeListener {
     public static final String GAME = "game";
 
     private TextView resultView;
     private ShakeDetector shakeDetector;
     private SensorManager sensorManager;
-    private GameSurfaceView gameSurfaceView;
-
 
     private Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_roll);
+        restoreOrInitGame(savedInstanceState);
+        setContentView(R.layout.activity_menu);
         initViews();
+        updateUi();
+    }
+
+    private void restoreOrInitGame(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            //game = (Game) savedInstanceState.get(GAME);
+        }
+        else initGame();
 
     }
 
@@ -41,12 +46,7 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shakeDetector = new ShakeDetector(this);
         resultView = (TextView) findViewById(R.id.result);
-        initGameView();
-    }
 
-    private void initGameView() {
-        gameSurfaceView = (GameSurfaceView)findViewById(R.id.gameSurfaceView);
-        gameSurfaceView.setGameSurfaceViewCallback(this);
     }
 
 
@@ -59,12 +59,12 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
     }
 
     private void initGame() {
-        game = new Game(gameSurfaceView);
+        game = new Game(null);
     }
 
     public void onRoll(View v) {
         game.rollDice();
-        //updateUi();
+        updateUi();
     }
 
     private void updateUi() {
@@ -105,41 +105,14 @@ public class GameActivity extends Activity implements ShakeDetector.OnShakeListe
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-       // outState.putParcelable(GAME, game);
-    }
-
-
-    //region ShakeDetector.OnShakeListener
     @Override
     public void onShake() {
         onRoll(null);
     }
-    //endregion
-
-    //region GameSurfaceView.GameSurfaceViewCallback
-    @Override
-    public void onTouch(float x, float y) {
-
-    }
 
     @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        game = Game.createGame(gameSurfaceView);
-        game.clear();
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //outState.putParcelable(GAME, game);
     }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
-    }
-    //endregion
 }

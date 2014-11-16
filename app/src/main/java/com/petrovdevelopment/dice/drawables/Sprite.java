@@ -8,6 +8,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
+import com.petrovdevelopment.common.util.U;
+
 /**
  * Class holding all the information required to render sprite on the screen.
  * Touchable to be able to react to touches if needed.
@@ -16,7 +18,7 @@ import android.view.View;
  *
  * @author andrey
  */
-public class Sprite implements Loopable, Touchable, Parcelable {
+public class Sprite<E> implements Loopable<E>, Touchable, Parcelable {
 
     protected int frameCount;
     protected int currentFrame;
@@ -58,20 +60,6 @@ public class Sprite implements Loopable, Touchable, Parcelable {
     }
 
 
-    @Override
-    public void init() {
-    }
-
-
-    /**
-     * Advance the animation, creating illusion of walking. increment should be first so that in the onDraw() we have
-     * currentFrame = 0/1/2 Starting from the second frame.
-     */
-    protected void changeFrame() {
-        currentFrame++;
-        currentFrame = currentFrame % frameCount;
-    }
-
 
     /**
      * Sets up the game view the bitmap and some prerender calculations.
@@ -99,27 +87,14 @@ public class Sprite implements Loopable, Touchable, Parcelable {
         dst = new Rect(x, y, x + width, y + height);
     }
 
-
-    @Override
-    public void update() {
-        changeFrame();
-        preRender();
+    /**
+     * Advance the animation, creating illusion of walking. increment should be first so that in the onDraw() we have
+     * currentFrame = 0/1/2 Starting from the second frame.
+     */
+    protected void changeFrame() {
+        currentFrame++;
+        currentFrame = currentFrame % frameCount;
     }
-
-    @Override
-    public void render(Canvas canvas) {
-        canvas.drawBitmap(bitmap, src, dst, null);
-    }
-
-    @Override
-    public boolean isTouched(float touchX, float touchY) {
-        return ((touchX >= x && touchX <= x + width) && (touchY >= y && touchY <= y + height));
-    }
-
-    @Override
-    public void onTouch() {
-    }
-
 
     /**
      * Derived field
@@ -139,6 +114,7 @@ public class Sprite implements Loopable, Touchable, Parcelable {
         return y + (height / 2);
     }
 
+    //region Getters and Setters
     public int getX() {
         return x;
     }
@@ -191,7 +167,51 @@ public class Sprite implements Loopable, Touchable, Parcelable {
     public int getSpriteResourceId() {
         return spriteResourceId;
     }
+    //endregion
 
+    //region Touchable implementation
+    @Override
+    public boolean isTouched(float touchX, float touchY) {
+        return ((touchX >= x && touchX <= x + width) && (touchY >= y && touchY <= y + height));
+    }
+
+    @Override
+    public void onTouch() {
+    }
+    //endregion
+
+    //region Loopable implementation
+    @Override
+    public void init() {
+    }
+
+    @Override
+    public void update(E notUsed) {
+        changeFrame();
+        preRender();
+    }
+
+    @Override
+    public void render(Canvas canvas) {
+        U.log(this, "rendering on canvas");
+        canvas.drawBitmap(bitmap, src, dst, null);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false; //never finished
+    }
+
+    @Override
+    public long getDuration() {
+        return -1; //endless
+    }
+
+    @Override
+    public void finish() {
+        //do nothing
+    }
+    //endregion
 
     //region Parceler Implementation
 
