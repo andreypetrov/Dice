@@ -12,7 +12,8 @@ public class MathUtil {
 	public static final double MAX_LAT = 71.0d;
 	public static final double MIN_LNG = -180.0d;
 	public static final double MAX_LNG = 180.0d;
-
+    //initialize once per app operation
+    public static final Random RANDOM = new Random();
 	/**
 	 * Generate a random double number within a given range
 	 * @param low
@@ -62,9 +63,17 @@ public class MathUtil {
      * @return
      */
     public static int getRandomInRange(int min, int max) {
-        Random random = new Random();
-        int randomNum = random.nextInt((max-min) + 1) + min;
+        int randomNum = RANDOM.nextInt((max-min) + 1) + min;
         return randomNum;
+    }
+
+    /**
+     * Get a random number in the range [0, n)
+     * @param n
+     * @return
+     */
+    public static int nextInt(int n) {
+        return RANDOM.nextInt(n);
     }
 
 }
