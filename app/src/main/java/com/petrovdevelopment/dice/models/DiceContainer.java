@@ -13,7 +13,7 @@ import java.util.List;
  * <p/>
  * Created by Andrey Petrov on 2014-11-16.
  */
-public class DiceContainer implements Parcelable {
+public class DiceContainer implements Parcelable, Model {
     private static Class<?> SIDE_TYPE = Die.class;
 
     List<Die<Integer>> dice;
@@ -93,6 +93,10 @@ public class DiceContainer implements Parcelable {
         return indicesCounts;
     }
 
+    @Override
+    public void save() {
+
+    }
 
     //region Parcel implementation
     @Override

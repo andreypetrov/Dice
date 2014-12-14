@@ -8,6 +8,8 @@ import android.os.Bundle;
 import com.petrovdevelopment.dice.opengl.SimpleGLSurfaceView;
 
 /**
+ *
+ * Activity to test the open gl es 3.0 framework of drawing
  * Created by Andrey Petrov on 2014-11-09.
  */
 public class OpenGLES30Activity extends Activity {

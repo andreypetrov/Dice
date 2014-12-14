@@ -2,6 +2,7 @@ package com.petrovdevelopment.common.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
@@ -390,5 +391,12 @@ public class U {
      */
     public static int getStringIdentifier(Context context, String name) {
         return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    }
+
+
+
+    public static void startActivity(Context packageContext, Class<?> targetActivityClass) {
+        Intent intent = new Intent(packageContext, targetActivityClass);
+        packageContext.startActivity(intent);
     }
 }

@@ -5,7 +5,7 @@ package com.petrovdevelopment.dice.models;
  * Currently it just has a name. In the future we may add more to it, but this is ok for now
  * Created by Andrey Petrov on 2014-11-17.
  */
-public class Side {
+public class Side implements Model {
     public String name;
 
     public Side(String name) {
@@ -18,5 +18,10 @@ public class Side {
      */
     public Side(Side original) {
         this.name = original.name;
+    }
+
+    @Override
+    public void save() {
+
     }
 }

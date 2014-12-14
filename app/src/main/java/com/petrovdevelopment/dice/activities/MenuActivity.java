@@ -1,6 +1,5 @@
 package com.petrovdevelopment.dice.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,8 +39,10 @@ public class MenuActivity extends BaseMenuActivity {
                         openOpenGl();
                         break;
                     case 2:
-                        U.log(this, "third button");
+                        openCouchDbTest();
                         break;
+                    case 3:
+                        openConfigure();
                     default: // do nothing
                 }
             }
@@ -55,14 +56,16 @@ public class MenuActivity extends BaseMenuActivity {
 
 
     private void openDiceRoll() {
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        U.startActivity(this, GameActivity.class);
     }
 
     private void openOpenGl() {
-        Intent intent = new Intent(this, OpenGLES30Activity.class);
-        startActivity(intent);
+        U.startActivity(this, OpenGLES30Activity.class);
     }
 
+    private void openCouchDbTest() {
+        U.startActivity(this, CouchbaseLiteActivity.class);
+    }
 
+    private void openConfigure () { U.startActivity(this, CollectionsActivity.class);};
 }

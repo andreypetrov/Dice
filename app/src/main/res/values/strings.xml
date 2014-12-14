@@ -9,4 +9,5 @@
     <string name="exampleResult">e.g. 6</string>
     <string name="title_activity_my">MyActivity</string>
 
+    <string name="dice_collections">Dice collections</string>
 </resources>

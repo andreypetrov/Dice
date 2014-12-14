@@ -11,7 +11,7 @@ import java.util.List;
  * All members public because of the ugly getter and setter java standards
  * Created by Andrey Petrov on 2014-11-17.
  */
-public class CustomDie {
+public class CustomDie implements Model {
     public int currentSideIndex;
     public String name; //optional
     public List<Side> sides;
@@ -156,5 +156,8 @@ public class CustomDie {
         return sides.get(currentSideIndex);
     }
 
+    @Override
+    public void save() {
 
+    }
 }

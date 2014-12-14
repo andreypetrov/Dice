@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.petrovdevelopment.common.util.MathUtil;
-import com.petrovdevelopment.common.util.U;
 
 import java.util.List;
 
@@ -16,12 +15,17 @@ import java.util.List;
  * https://github.com/frankiesardo/auto-parcel
  * https://github.com/johncarl81/parceler
  */
-public class Die<E> implements Parcelable {
+public class Die<E> implements Parcelable, Model {
     private int currentSideIndex;
     Class<?> sideType;
     List<E> sides;
 
     private int spriteResourceId;
+
+    @Override
+    public void save() {
+
+    }
 
     /**
      * Create a die6 with the given sides count (standard die6 is six)

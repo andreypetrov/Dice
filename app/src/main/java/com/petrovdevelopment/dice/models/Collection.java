@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Andrey Petrov on 2014-11-17.
  */
-public class Collection {
+public class Collection implements Model {
     public String name;
     public List<CustomDie> dice;
 
@@ -27,4 +27,8 @@ public class Collection {
         return dice.size();
     }
 
+    @Override
+    public void save() {
+
+    }
 }

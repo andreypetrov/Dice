@@ -17,9 +17,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // workaround for "duplicate files during packaging of APK" issue
+    // see https://groups.google.com/d/msg/adt-dev/bl5Rc4Szpzg/wC8cylTWuIEJ
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
+    //http://developer.couchbase.com/mobile/develop/training/build-first-android-app/get-started-studio/index.html
+    compile 'com.couchbase.lite:couchbase-lite-android:1.0.2'
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     compile project(":common")
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
